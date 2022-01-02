@@ -1,0 +1,42 @@
+---
+- name: "Creating user node_exporter"
+  user:
+    name: node_exporter
+    create_home: no
+
+- name: "Downloading node_exporter-1.3.1.linux-amd64.tar.gz"
+  get_url:
+    url: https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
+    dest: /home/
+
+- name: "Extracting prometheus-*.tar.gz"
+  unarchive:
+    remote_src: yes
+    src: /home/node_exporter-1.3.1.linux-amd64.tar.gz
+    dest: /home/
+
+- name: "Moving extracted files to a folder node_exporter-files"
+  copy:
+    remote_src: yes
+    src: /home/node_exporter-1.3.1.linux-amd64/
+    dest: /home/node_exporter-files/
+
+- name: "Copy node export binary to /usr/local/bin/"
+  copy:
+    remote_src: yes
+    src: /home/node_exporter-files/node_exporter
+    dest: /usr/local/bin/
+    owner: node_exporter
+    group: node_exporter
+    mode: 0755
+
+- name: "Creating node_exporter Service File"
+  copy:
+    src: node_exporter.service
+    dest: /etc/systemd/system/
+
+- name: "Restarting/Enabling node_exporter"
+  service:
+    name: node_exporter
+    state: restarted
+    enabled: true

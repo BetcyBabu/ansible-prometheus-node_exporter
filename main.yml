@@ -1,0 +1,6 @@
+---
+- name : "Installing Node Exporter"
+  hosts: targets
+  become: true
+  tasks:
+    - include_tasks: node_exporter.yml

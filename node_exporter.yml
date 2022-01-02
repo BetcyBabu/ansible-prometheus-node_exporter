@@ -9,7 +9,7 @@
     url: https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
     dest: /home/
 
-- name: "Extracting prometheus-*.tar.gz"
+- name: "Extracting node_exporter-1.3.1.linux-amd64.tar.gz"
   unarchive:
     remote_src: yes
     src: /home/node_exporter-1.3.1.linux-amd64.tar.gz
